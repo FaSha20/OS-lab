@@ -15,6 +15,7 @@ OBJS = \
 	picirq.o\
 	pipe.o\
 	proc.o\
+	imp.o\
 	sleeplock.o\
 	spinlock.o\
 	string.o\
@@ -182,6 +183,11 @@ UPROGS=\
 	_wc\
 	_zombie\
 	_prime_numbers\
+	_largest_prime_factor\
+	_change_file_size\
+	_parent_pid\
+	_callers\
+	_hello\
 
 fs.img: mkfs README $(UPROGS)
 	./mkfs fs.img README $(UPROGS)

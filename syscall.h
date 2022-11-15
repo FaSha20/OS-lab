@@ -20,3 +20,10 @@
 #define SYS_link   19
 #define SYS_mkdir  20
 #define SYS_close  21
+#define SYS_change_file_size  26
+#define SYS_find_largest_prime_factor  23
+#define SYS_get_callers  24
+#define SYS_get_parent_pid  25
+
+
+

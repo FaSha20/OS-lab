@@ -189,12 +189,14 @@ struct {
 } input;
 
 #define C(x)  ((x)-'@')  // Control-x
+#define REC_COMMAND_NUM 15
 
 void
 consoleintr(int (*getc)(void))
 {
   int c, doprocdump = 0;
   char buf[INPUT_BUF];
+  //char commands[REC_COMMAND_NUM][30];
 
   acquire(&cons.lock);
   while((c = getc()) >= 0){
@@ -248,12 +250,24 @@ consoleintr(int (*getc)(void))
         consputc(buf[j]);
       }
       break;
-    case ('\t'):  // complete command
-      if(input.e != input.w){
-        input.e--;
-        consputc('t');
+    /*case ('\t'):  // complete command
+      i = 0;
+      char* test[10];
+      memset(buf,'\0',(sizeof(buf) / sizeof( buf[1])));
+      while(input.e != input.w){
+        input.e --;
+        buf[i] = input.buf[input.e];
+        i++;
       }
-      break;
+      for(int j = 0; j < REC_COMMAND_NUM; j++){
+        for(int x = 0; x < i-1; x++){
+          test[x] = commands[j][x];
+        }
+        if(buf == test){
+
+        }
+      }
+      break;*/
     }
     default:
       if(c != 0 && input.e-input.r < INPUT_BUF){

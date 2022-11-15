@@ -6,6 +6,9 @@
 #include "memlayout.h"
 #include "mmu.h"
 #include "proc.h"
+#include "imp.h"
+
+
 
 int
 sys_fork(void)
@@ -89,3 +92,36 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+
+
+
+int
+sys_find_largest_prime_factor(void)
+{
+  int number = myproc()->tf->ebx;
+  cprintf("Kernel: sys_find_largest_prime_factor() called for number: %d\n", number);
+  return largest_prime_factor(number);
+}
+
+int
+sys_get_callers(void)
+{
+  int syscall_n;
+  int* procs;
+  argint(0 , &syscall_n);
+  cprintf("Kernel: sys_get_callers() called for system call: %d\n", syscall_n);
+  cprintf("Process callers of system call %d are:\n" , syscall_n);
+  find_callers(syscall_n, &procs);
+  return 1;
+}
+
+int
+sys_get_parent_pid(void)
+{
+  cprintf("Kernel: sys_get_parent_pid() called for process with pid %d\n", myproc()->pid);
+  return myproc()->parent->pid;
+}
+
+
+

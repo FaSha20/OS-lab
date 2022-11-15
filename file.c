@@ -154,4 +154,31 @@ filewrite(struct file *f, char *addr, int n)
   }
   panic("filewrite");
 }
-
+// /home/ubuntu2004/Desktop/file.txt
+//change size of a file
+int change_size(char* path, int size){
+  /*begin_op();
+  char buf[100] = {"\0"};
+  struct inode* minode = namei(path);
+  if(namei(path) == 0){
+    cprintf("bad address!\n");
+    end_op();
+    return 0;
+  }
+  ilock(minode);
+  if(size == minode->size){
+    return 1;
+  }
+  else if (size < minode->size){
+    minode->size = size;
+  }
+  else{
+    while(size > minode->size){
+      writei(minode, buf, minode->size, size - minode->size);
+    }
+  }
+  iupdate(minode);
+  iunlock(minode);
+  end_op();*/
+  return 1;
+}

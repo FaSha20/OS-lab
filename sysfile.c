@@ -15,6 +15,7 @@
 #include "sleeplock.h"
 #include "file.h"
 #include "fcntl.h"
+#include "imp.h"
 
 // Fetch the nth word-sized system call argument as a file descriptor
 // and return both the descriptor and the corresponding struct file.
@@ -441,4 +442,18 @@ sys_pipe(void)
   fd[0] = fd0;
   fd[1] = fd1;
   return 0;
+}
+
+
+
+int
+sys_change_file_size(void)
+{
+  char* path;
+  int size;
+  argint(1 , &size);
+  argstr(0 , &path);
+	cprintf("Kernel: sys_change_file_size() called for path: %s, new size: %d\n" , path, size);
+  int s = change_size(path, size);
+  return s;
 }

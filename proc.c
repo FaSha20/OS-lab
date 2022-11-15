@@ -6,6 +6,15 @@
 #include "x86.h"
 #include "proc.h"
 #include "spinlock.h"
+#include "imp.h"
+#include "fs.h"
+//#include "file.h"
+#include "sleeplock.h"
+
+#include "stat.h"
+#include "buf.h"
+#include "file.h"
+
 
 struct {
   struct spinlock lock;
@@ -17,6 +26,7 @@ static struct proc *initproc;
 int nextpid = 1;
 extern void forkret(void);
 extern void trapret(void);
+extern int largest_prime_factor(int);
 
 static void wakeup1(void *chan);
 
@@ -532,3 +542,51 @@ procdump(void)
     cprintf("\n");
   }
 }
+
+//return the largest prime factor of input number
+int largest_prime_factor(int n)
+{   
+  long int div=2, maxFact;
+  while(n!=0) {
+    if(n % div !=0)
+        div = div + 1;
+    else {
+        maxFact = n;
+        n = n / div;
+        if(n == 1) {
+          return maxFact;
+        }
+    }
+  }
+  return 0;
+}
+
+
+//find processes that call a system call
+void find_callers(int n, int** procs){
+  int j = 0;
+  int f = 0;
+  int temp[64] = {0};
+  acquire(&ptable.lock);
+
+  for(int i = 0; i < sizeof(ptable.proc)/sizeof(ptable.proc[0]); i++){
+    if(ptable.proc[i].systemcalls[n] == 1){
+      temp[j] = ptable.proc[i].pid;
+      j++;
+    }
+  }
+  *procs = temp;
+  for(int i = 0; i < j; i++){
+    f = 1;
+    cprintf("%d", temp[i]);
+    if(i != j - 1){
+      cprintf(", ");
+    }
+  }
+  if(f == 0)cprintf("No process has called this system call");
+  cprintf("\n");
+  
+  release(&ptable.lock);
+}
+
+
