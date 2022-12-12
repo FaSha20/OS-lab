@@ -40,6 +40,7 @@ void rinode(uint inum, struct dinode *ip);
 void rsect(uint sec, void *buf);
 uint ialloc(ushort type);
 void iappend(uint inum, void *p, int n);
+extern int random_gen(int up_limit);
 
 // convert to intel byte order
 ushort
@@ -295,3 +296,4 @@ iappend(uint inum, void *xp, int n)
   din.size = xint(off);
   winode(inum, &din);
 }
+

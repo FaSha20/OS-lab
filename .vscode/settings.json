@@ -3,7 +3,11 @@
         "types.h": "c",
         "spinlock.h": "c",
         "unistd.h": "c",
-        "file.h": "c"
+        "file.h": "c",
+        "stdlib.h": "c",
+        "fs.h": "c",
+        "date.h": "c",
+        "typeinfo": "c"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

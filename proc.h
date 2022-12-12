@@ -50,6 +50,17 @@ struct proc {
   struct inode *cwd;           // Current directory
   char name[16];               // Process name (debugging)
   int systemcalls[21];         // System calls that called in this process
+
+  int proc_level;              // process level
+  int arrival_time;            // time of arrival
+  int cycles;                  // cycles
+  int n_tickets;               // num of lottery tickets
+  int wait_cycles;             // waiting cycles
+  int rank;                    // rank = p_ratio * proc_level + t_ratio * arrival_time + c_ratio * cycles
+  int p_ratio;                 // priority ratio
+  int t_ratio;                 // arrival time ratio
+  int c_ratio;                 // executed cycle ratio
+  int last_cpu_time;
 };
 
 // Process memory is laid out contiguously, low addresses first:

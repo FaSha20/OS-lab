@@ -33,4 +33,8 @@ SYSCALL(find_largest_prime_factor)
 SYSCALL(change_file_size)
 SYSCALL(get_callers)
 SYSCALL(get_parent_pid)
-
+SYSCALL(change_queue)
+SYSCALL(set_tickets)
+SYSCALL(print_process)
+SYSCALL(sys_set_bjf_params);
+SYSCALL(proc_set_bjf_params);

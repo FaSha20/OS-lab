@@ -120,6 +120,15 @@ void            userinit(void);
 int             wait(void);
 void            wakeup(void*);
 void            yield(void);
+int             largest_prime_factor(int n);
+int             change_size(char* path, int size);
+void            find_callers(int syscall_n, int** proc);
+int             change_queue(int, int);
+int             set_tickets(int, int);
+int             print_process(void);
+int             sys_set_bjf_params(int, int, int);
+int             proc_set_bjf_params(int, int, int, int);
+
 
 // swtch.S
 void            swtch(struct context**, struct context*);

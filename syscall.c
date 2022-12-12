@@ -107,6 +107,11 @@ extern int sys_change_file_size(void);
 extern int sys_find_largest_prime_factor(void);
 extern int sys_get_callers(void);
 extern int sys_get_parent_pid(void);
+extern int sys_change_queue(void);
+extern int sys_set_tickets(void);
+extern int sys_print_process(void);
+extern int sys_sys_set_bjf_params(void);
+extern int sys_proc_set_bjf_params(void);
 
 
 static int (*syscalls[])(void) = {
@@ -135,6 +140,11 @@ static int (*syscalls[])(void) = {
 [SYS_find_largest_prime_factor]   sys_find_largest_prime_factor,
 [SYS_get_callers]   sys_get_callers,
 [SYS_get_parent_pid]   sys_get_parent_pid,
+[SYS_change_queue] sys_change_queue,
+[SYS_set_tickets] sys_set_tickets,
+[SYS_print_process] sys_print_process,
+[SYS_sys_set_bjf_params] sys_sys_set_bjf_params,
+[SYS_proc_set_bjf_params] sys_proc_set_bjf_params,
 };
 
 void

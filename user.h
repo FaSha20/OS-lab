@@ -28,6 +28,12 @@ int get_callers(int n);
 int change_file_size(char* path, int size);
 int get_parent_pid(void);
 
+int change_queue(int, int);
+int set_tickets(int, int);
+int print_process(void);
+int sys_set_bjf_params(int,int,int);
+int proc_set_bjf_params(int,int,int,int);
+
 
 // ulib.c
 int stat(const char*, struct stat*);
