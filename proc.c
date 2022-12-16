@@ -27,9 +27,6 @@ static struct proc *initproc;
 int nextpid = 1;
 extern void forkret(void);
 extern void trapret(void);
-extern int largest_prime_factor(int);
-extern int set_tickets(int, int);
-extern int change_queue(int, int);
 
 static void wakeup1(void *chan);
 int random(int max);
@@ -121,6 +118,7 @@ found:
   p->c_ratio = 1;
   p->rank = INFINITY;
   p->last_cpu_time = 0;
+  p->wait_cycles = 0;
 
   release(&ptable.lock);
 
@@ -419,7 +417,7 @@ struct proc *bjf_finder(void)
   return 0;
 }
 
-struct proc *find_process(int *flag)
+int find_process(struct proc* q)
 {
   struct proc *p, *best = 0;
 
@@ -433,7 +431,10 @@ struct proc *find_process(int *flag)
           best = p;
         }
   }
-  if(best != 0)return best;
+  if(best != 0){
+    q = best;
+    return 0;
+  }
 
   // Lottery
   struct proc *ps[NPROC];
@@ -449,11 +450,15 @@ struct proc *find_process(int *flag)
       i++;
     }
   int rnum = random(sum);
-  cprintf("rand: %d\n", rnum);
   for (int j = 0; j < i; j++)
   {
-    if (rnum < limits[j])
-      return ps[j];
+    if (rnum < limits[j]){
+      q = ps[j];
+     /* q->c_ratio = j;
+      q->t_ratio = rnum;
+      q->p_ratio = limits[j];*/
+      return 0;
+    }
   }
   
   //BJF
@@ -469,12 +474,12 @@ struct proc *find_process(int *flag)
     }
   }
   if(best_rank != INFINITY) {
-    *flag = 1;
-    return best_proc;
+    q = best_proc;
+    q->rank = best_rank;
+    return 0;
   }
  
-  *flag = 0;
-  return p;
+  return -1;
 }
 
 // PAGEBREAK: 42
@@ -519,26 +524,8 @@ void scheduler(void)
       // to release ptable.lock and then reacquire it
       // before jumping back to us.
 
-      //int flag = 0;
-      //p = find_process(&flag);
-
-     /*p = round_robin_finder();
       
-      if (p == 0){
-        p = lottery_finder();
-        
-      }
-        
-      if(p == 0){
-        p = bjf_finder();
-        
-      }
-        
-      if (p == 0) {
-        release(&ptable.lock);
-        continue;
-      }
-      */
+      find_process(p);
       c->proc = p;
       
       switchuvm(p);
