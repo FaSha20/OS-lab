@@ -38,3 +38,7 @@ SYSCALL(set_tickets)
 SYSCALL(print_process)
 SYSCALL(sys_set_bjf_params);
 SYSCALL(proc_set_bjf_params);
+SYSCALL(sem_init);
+SYSCALL(sem_acquire);
+SYSCALL(sem_release);
+

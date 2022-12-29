@@ -112,6 +112,11 @@ extern int sys_set_tickets(void);
 extern int sys_print_process(void);
 extern int sys_sys_set_bjf_params(void);
 extern int sys_proc_set_bjf_params(void);
+extern int sys_sem_init(void);
+extern int sys_sem_acquire(void);
+extern int sys_sem_release(void);
+
+
 
 
 static int (*syscalls[])(void) = {
@@ -145,6 +150,9 @@ static int (*syscalls[])(void) = {
 [SYS_print_process] sys_print_process,
 [SYS_sys_set_bjf_params] sys_sys_set_bjf_params,
 [SYS_proc_set_bjf_params] sys_proc_set_bjf_params,
+[SYS_sem_init] sys_sem_init,
+[SYS_sem_acquire] sys_sem_acquire,
+[SYS_sem_release] sys_sem_release,
 };
 
 void

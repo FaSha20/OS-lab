@@ -187,6 +187,7 @@ UPROGS=\
 	_proc_set_bjf_params\
 	_print_process\
 	_foo\
+	_dinning_phils\
 
 fs.img: mkfs README $(UPROGS)
 	./mkfs fs.img README $(UPROGS)
@@ -255,8 +256,8 @@ qemu-nox-gdb: fs.img xv6.img .gdbinit
 
 EXTRA=\
 	mkfs.c ulib.c user.h cat.c echo.c forktest.c grep.c kill.c get_file_sectors.c\
-	ln.c ls.c mkdir.c rm.c stressfs.c usertests.c wc.c zombie.c \
-	printf.c umalloc.c change_queue.c set_tickets.c print_process.c foo.c\
+	ln.c ls.c mkdir.c rm.c stressfs.c usertests.c wc.c zombie.c dinning_phils.c\
+	printf.c umalloc.c sem_init.c sem_release.c sem_acquire.c change_queue.c set_tickets.c print_process.c foo.c\
 	README dot-bochsrc *.pl toc.* runoff runoff1 runoff.list\
 	.gdbinit.tmpl gdbutil\
 
