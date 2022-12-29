@@ -34,6 +34,10 @@ int print_process(void);
 int sys_set_bjf_params(int,int,int);
 int proc_set_bjf_params(int,int,int,int);
 
+int sem_init(int, int);
+int sem_acquire(int);
+int sem_release(int);
+
 
 // ulib.c
 int stat(const char*, struct stat*);

@@ -32,4 +32,10 @@
 #define SYS_sys_set_bjf_params 30
 #define SYS_proc_set_bjf_params 31
 
+#define SYS_sem_acquire 32
+#define SYS_sem_init 33
+#define SYS_sem_release 34
+
+
+
 

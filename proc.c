@@ -30,6 +30,8 @@ extern void trapret(void);
 
 static void wakeup1(void *chan);
 int random(int max);
+void sem_sleep(struct proc* p);
+void sem_wakeup(struct proc* p);
 
 void pinit(void)
 {
@@ -454,7 +456,7 @@ int find_process(struct proc* q)
   {
     if (rnum < limits[j]){
       q = ps[j];
-     /* q->c_ratio = j;
+      /*->c_ratio = j;
       q->t_ratio = rnum;
       q->p_ratio = limits[j];*/
       return 0;
@@ -922,3 +924,75 @@ int random(int max)
   return rand;
 }
 
+//------------------------------------------------
+
+#define MAXPROC 100
+
+typedef struct
+{
+    int value;
+    struct proc* list[MAXPROC];
+    int last;
+}semaphore;
+
+semaphore sems[6];
+
+void sem_sleep(struct proc *p1)
+{
+  acquire(&ptable.lock); 
+  p1->state = SLEEPING;
+  sched();
+  release(&ptable.lock);
+}
+
+void sem_wakeup(struct proc *p1)
+{
+  acquire(&ptable.lock);
+  p1->state = RUNNABLE;
+  release(&ptable.lock);
+}
+
+int sem_init(int i , int v)
+{
+  sems[i].value = v;
+  sems[i].last = 0;
+  return 0;
+}
+
+int sem_acquire(int i)
+{
+  if(sems[i].value <= 0)
+  {
+    struct proc* p = myproc();
+    sems[i].list[sems[i].last ++] = p;
+    sem_sleep(p);
+  }
+  else
+    sems[i].value--;
+  if(i != 5)
+    cprintf("Philosopher %d ACQUIRED chopstick %d ,with value %d\n",
+           myproc()->pid-3 , i, sems[i].value);
+  else cprintf("Philosopher %d is READY to eat, with value %d\n",
+           myproc()->pid-3 , sems[i].value);
+
+  return 0;
+}
+
+int sem_release(int i)
+{
+  if(sems[i].last)
+  {
+    struct proc* p = sems[i].list[--sems[i].last];
+    sem_wakeup(p);
+  }
+  else
+    sems[i].value++;
+  
+  if(i != 5)
+    cprintf("Philosopher %d RELEASED chopstick %d ,with value %d\n",
+           myproc()->pid-3 , i, sems[i].value);
+  else 
+    cprintf("Philosopher %d STOP eating, with value %d\n",
+           myproc()->pid-3, sems[i].value);
+  return 0;
+}
